@@ -43,6 +43,25 @@ The app will be available at `http://localhost:5173`. If Vite chooses a differen
 - `PATCH /tasks/{id}` update task (title, due_date, is_done)
 - `DELETE /tasks/{id}` delete task
 
+## Deploying on Render
+
+This repo includes a root [`render.yaml`](/Users/rex/Desktop/Todo App/render.yaml) Blueprint that creates:
+
+- `todoappptc-api` as a free Python web service
+- `todoappptc-web` as a free static site
+
+The frontend reads its API base URL from `VITE_API_URL`, and the backend allows local dev origins plus `*.onrender.com`.
+
+### Render setup
+
+1. In Render, create a new Blueprint from this GitHub repo.
+2. Render will read the root `render.yaml` automatically.
+3. Deploy both services created by the Blueprint.
+
+### Important limitation
+
+This app uses SQLite. On Render free instances, the filesystem is ephemeral, so task data will not be durable across redeploys, restarts, or instance replacement. This setup is suitable for demos, not persistent production data.
+
 ## Tests
 
 There are no automated tests yet. If you add tests later, consider:
