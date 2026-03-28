@@ -14,7 +14,6 @@ services:
   - type: web
     name: todoappptc-web
     runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
