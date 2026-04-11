@@ -10,13 +10,16 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.11
+      - key: FRONTEND_ORIGIN
+        sync: false
 
   - type: web
     name: todoappptc-web
     runtime: static
+    plan: free
     rootDir: frontend
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        value: https://todoappptc-api.onrender.com
+        sync: false

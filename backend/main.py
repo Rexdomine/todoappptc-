@@ -22,12 +22,11 @@ allowed_origins = [
 
 frontend_origin = os.getenv("FRONTEND_ORIGIN")
 if frontend_origin:
-    allowed_origins.append(frontend_origin)
+    allowed_origins.append(frontend_origin.rstrip("/"))
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_origin_regex=r"https://.*\.onrender\.com",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,7 +56,6 @@ def list_tasks(db: Session = Depends(get_db)):
 
 
 @app.post("/tasks", response_model=TaskOut, status_code=201)
-
 def create_task(task: TaskCreate, db: Session = Depends(get_db)):
     db_task = Task(title=task.title.strip(), due_date=task.due_date)
     db.add(db_task)
@@ -67,7 +65,6 @@ def create_task(task: TaskCreate, db: Session = Depends(get_db)):
 
 
 @app.patch("/tasks/{task_id}", response_model=TaskOut)
-
 def update_task(task_id: int, task: TaskUpdate, db: Session = Depends(get_db)):
     db_task = db.query(Task).filter(Task.id == task_id).first()
     if not db_task:
@@ -86,7 +83,6 @@ def update_task(task_id: int, task: TaskUpdate, db: Session = Depends(get_db)):
 
 
 @app.delete("/tasks/{task_id}", status_code=204)
-
 def delete_task(task_id: int, db: Session = Depends(get_db)):
     db_task = db.query(Task).filter(Task.id == task_id).first()
     if not db_task:
