@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/$/, "");
+const API_BASE_URL = (
+  import.meta.env.VITE_API_URL || "http://localhost:8000"
+).replace(/\/$/, "");
 
 function formatDue(dateString) {
   if (!dateString) return "No due date";
@@ -31,7 +33,7 @@ export default function App() {
   async function loadTasks() {
     try {
       setError("");
-      const response = await fetch(`${API_URL}/tasks`);
+      const response = await fetch(`${API_BASE_URL}/tasks`);
       if (!response.ok) {
         throw new Error("Failed to load tasks.");
       }
@@ -49,7 +51,7 @@ export default function App() {
     try {
       setIsSaving(true);
       setError("");
-      const response = await fetch(`${API_URL}/tasks`, {
+      const response = await fetch(`${API_BASE_URL}/tasks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -78,7 +80,7 @@ export default function App() {
   async function toggleDone(task) {
     try {
       setError("");
-      const response = await fetch(`${API_URL}/tasks/${task.id}`, {
+      const response = await fetch(`${API_BASE_URL}/tasks/${task.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -102,7 +104,7 @@ export default function App() {
   async function deleteTask(taskId) {
     try {
       setError("");
-      const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+      const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
         method: "DELETE"
       });
 
